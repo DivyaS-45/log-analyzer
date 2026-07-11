@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="details-wrapper">
+
+    <div class="details-page-card">
+        <div class="page-container">
+        <h1 class="page-title">
+            Upload Details
+        </h1>
+
+        <div class="details-grid">
+
+            <div class="detail-item">
+                <span>ID</span>
+                <strong>{{ upload.id }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Filename</span>
+                <strong>{{ upload.filename }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Uploaded At</span>
+                <strong>{{ upload.uploaded_at.strftime("%d-%m-%Y %H:%M") }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>INFO</span>
+                <strong>{{ upload.info_count }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>WARNING</span>
+                <strong>{{ upload.warning_count }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>ERROR</span>
+                <strong>{{ upload.error_count }}</strong>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">
+            Error Summary
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Error Message</th>
+                    <th>Occurrences</th>
+                </tr>
+
+                {% for error in errors %}
+
+                <tr>
+
+                    <td>{{ error.error_message }}</td>
+
+                    <td>{{ error.occurrence_count }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

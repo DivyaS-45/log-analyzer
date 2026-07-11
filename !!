@@ -1,0 +1,89 @@
+
+from fastapi import FastAPI
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
+from fastapi import UploadFile, File
+
+from app.database import SessionLocal
+from app.models import Upload
+from app.models import Error
+
+app = FastAPI()
+
+templates = Jinja2Templates(directory="app/templates")
+
+
+@app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="upload.html"
+    )
+
+
+@app.post("/upload")
+async def upload_file(
+    request: Request,
+    logfile: UploadFile = File(...)
+):
+    content = await logfile.read()
+
+    with open(
+        f"uploads/{logfile.filename}",
+        "wb"
+    ) as file:
+
+        file.write(content)
+    info_count = 0
+    warning_count = 0
+    error_count = 0
+    error_groups = {}
+    text = content.decode("utf-8")
+    for line in text.splitlines():
+
+        if line.startswith("INFO"):
+            info_count += 1
+
+        elif line.startswith("WARNING"):
+            warning_count += 1
+
+        elif line.startswith("ERROR"):
+            error_count += 1
+            message = line.replace("ERROR ", "")
+            if message not in error_groups:
+                error_groups[message] = 1
+            else:
+                error_groups[message] += 1
+    print(error_groups)
+
+    db = SessionLocal()
+
+    upload = Upload(
+    filename=logfile.filename,
+    info_count=info_count,
+    warning_count=warning_count,
+    error_count=error_count
+    )
+
+    db.add(upload)
+
+    db.commit()
+
+    db.close()
+
+
+    return templates.TemplateResponse(
+    request=request,
+    name="result.html",
+
+    context={
+    "filename": logfile.filename,
+    "info": info_count,
+    "warning": warning_count,
+    "error": error_count,
+    "error_groups": error_groups
+    }
+
+
+
+)

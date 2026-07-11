@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Logify</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h1 class="logo">
+        Logify
+    </h1>
+
+    <a href="/"
+       class="{% if request.url.path == '/' %}active{% endif %}">
+        📄 Upload
+    </a>
+
+    <a href="/dashboard"
+       class="{% if request.url.path == '/dashboard' %}active{% endif %}">
+        📊 Dashboard
+    </a>
+
+    <a href="/history"
+       class="{% if request.url.path.startswith('/history') %}active{% endif %}">
+        📁 History
+    </a>
+
+    <a href="/logout" class="logout-link">
+        🚪 Logout
+    </a>
+
+</div>
+
+<div class="main-content">
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+{% block scripts %}
+{% endblock %}
+
+</body>
+
+</html>
+

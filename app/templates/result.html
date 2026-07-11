@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="result-wrapper">
+    <div class="page-container">
+    <h1 class="page-title">
+        Log Analysis Report
+    </h1>
+
+    <div class="card">
+
+        <div class="file-header">
+
+            <h2>📄 {{ filename }}</h2>
+
+            <p>
+                Analysis completed successfully
+            </p>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3>INFO</h3>
+                <p>{{ info }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>WARNING</h3>
+                <p>{{ warning }}</p>
+            </div>
+
+            <div class="stat error-card">
+                <h3>ERROR</h3>
+                <p>{{ error }}</p>
+            </div>
+
+        </div>
+
+        <div class="summary-section">
+
+            <h2 class="section-title">
+                Error Summary
+            </h2>
+
+            <table>
+
+                <tr>
+                    <th>Error Message</th>
+                    <th>Occurrences</th>
+                </tr>
+
+                {% for error, count in error_groups.items() %}
+
+                <tr>
+
+                    <td>{{ error }}</td>
+
+                    <td>
+                        <span class="count-badge">
+                            {{ count }}
+                        </span>
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

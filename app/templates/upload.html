@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+<div class="upload-wrapper">
+
+    <div class="upload-card">
+
+        <h1>Log Analyzer</h1>
+
+        <form
+            action="/upload"
+            method="post"
+            enctype="multipart/form-data"
+        >
+
+            <div class="upload-box">
+
+                <div class="file-icon">
+                    📄
+                </div>
+
+                <h2>Select Log File</h2>
+
+                <p class="upload-text">
+                    Upload a .log or .txt file for analysis
+                </p>
+
+                <br>
+
+                <input
+                    type="file"
+                    name="logfile"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="submit-btn"
+            >
+                Upload Log
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+</div>
+{% endblock %}

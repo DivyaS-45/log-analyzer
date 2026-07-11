@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    <div class="dashboard-card">
+
+        <h1 class="page-title">
+            Log Analyzer Dashboard
+        </h1>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3>Total Uploads</h3>
+                <p>{{ total_uploads }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Total INFO</h3>
+                <p>{{ total_info }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Total WARNING</h3>
+                <p>{{ total_warning }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Total ERROR</h3>
+                <p>{{ total_error }}</p>
+            </div>
+
+        </div>
+
+        <div class="card chart-card">
+
+            <h2 class="section-title">
+                Log Statistics
+            </h2>
+
+            <canvas id="logChart"></canvas>
+
+        </div>
+
+        <h2 class="section-title">
+            Recent Uploads
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Filename</th>
+                    <th>INFO</th>
+                    <th>WARNING</th>
+                    <th>ERROR</th>
+                </tr>
+
+                {% for upload in recent_uploads %}
+
+                <tr>
+
+                    <td>{{ upload.id }}</td>
+                    <td>{{ upload.filename }}</td>
+                    <td>{{ upload.info_count }}</td>
+                    <td>{{ upload.warning_count }}</td>
+                    <td>{{ upload.error_count }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const ctx = document.getElementById("logChart");
+
+new Chart(ctx,{
+    type:"bar",
+    data:{
+        labels:["INFO","WARNING","ERROR"],
+        datasets:[{
+            label:"Logs",
+            data:[
+                {{ total_info }},
+                {{ total_warning }},
+                {{ total_error }}
+            ],
+            backgroundColor:[
+                "#28a745",
+                "#ffc107",
+                "#dc3545"
+            ]
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false
+    }
+});
+
+</script>
+
+{% endblock %}
+
